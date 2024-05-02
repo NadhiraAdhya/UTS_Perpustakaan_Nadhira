@@ -205,21 +205,31 @@
 
         // Fungsi untuk meminjam buku
         function borrowBook(bookId) {
-            if (library.borrowBook(bookId)) {
-                alert("Berhasil meminjam buku!");
-                displayBooks(library.books);
+            const book = library.books.find(book => book.id === bookId);
+            if (book && book.status === "Tersedia") {
+                if (library.borrowBook(bookId)) {
+                    alert("Berhasil meminjam buku!");
+                    displayBooks(library.books);
+                } else {
+                    alert("Gagal meminjam buku. Buku tidak tersedia atau tidak ditemukan.");
+                }
             } else {
-                alert("Gagal meminjam buku. Buku tidak tersedia atau tidak ditemukan.");
+                alert("Gagal meminjam buku. Buku sudah dipinjam atau tidak ditemukan.");
             }
         }
 
         // Fungsi untuk mengembalikan buku
         function returnBook(bookId) {
-            if (library.returnBook(bookId)) {
-                alert("Berhasil mengembalikan buku!");
-                displayBooks(library.books);
+            const book = library.books.find(book => book.id === bookId);
+            if (book && book.status === "Dipinjam") {
+                if (library.returnBook(bookId)) {
+                    alert("Berhasil mengembalikan buku!");
+                    displayBooks(library.books);
+                } else {
+                    alert("Gagal mengembalikan buku. Buku tidak ditemukan.");
+                }
             } else {
-                alert("Gagal mengembalikan buku. Buku tidak ditemukan atau belum dipinjam.");
+                alert("Gagal mengembalikan buku. Buku belum dipinjam atau tidak ditemukan.");
             }
         }
 
